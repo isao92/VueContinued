@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Module16 from './views/Module16.vue'
-import User from './views/User.vue'
 import UserStart from './views/UserStart.vue'
 import UserDetail from './views/UserDetail.vue'
 import UserEdit from './views/UserEdit.vue'
@@ -33,16 +32,24 @@ export default new Router({
       component: Module16
     },
     {
-      path: '/user/:id',
-      name: 'user',
-      component: User
-    },
-    {
       path: '/user',
       components: {
         default: UserStart,
         'header-bottom': Header
-      }
+      },
+      children: [
+        { path: '',
+          component: UserStart
+        },
+        { path: ':id',
+          component: UserDetail,
+          beforeEnter: (to, from, next) => {
+            console.log('inside route setup')
+            next()
+          }
+        },
+        { path: ':id/edit', component: UserEdit, name: 'userEdit' }
+      ]
     },
     {
       path: ':id',

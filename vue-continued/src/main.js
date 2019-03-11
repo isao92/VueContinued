@@ -19,6 +19,14 @@ Vue.http.interceptors.push((request, next) => {
   })
 })
 
+router.beforeEach((to, from, next) => {
+  console.log('global beforeEach')
+  // you can pass false or path into the next function
+  // next(false)
+  // next('/')
+  next()
+})
+
 new Vue({
   router,
   store,
